@@ -19,7 +19,11 @@ public:
 	void Play();
 	void Sleep();
 	void Update();
+	std::string ReadStats(int stat);
+	void LoadFromStream(std::istream& in);
 
 	void PrintStats() const;
 	bool IsAlive() const;
+	std::string data;
+	std::string GetData();
 };
