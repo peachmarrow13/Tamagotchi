@@ -34,12 +34,25 @@ int Utils::getRandomNumber(int min, int max) {
 		std::ofstream file(filename, std::ofstream::trunc);
 		if (file.is_open()) {
 			std::string text = pet;
+
 			file << text;
 
 			file.close();
 		}
 		else {
 			std::cerr << "Error opening file: " << filename << std::endl;
+		}
+		std::ofstream File("Time", std::ofstream::trunc);
+		if (File.is_open()) {
+			using std::chrono::system_clock;
+			system_clock::time_point Now = system_clock::now();
+		
+			File << system_clock::to_time_t(Now) << std::endl;
+
+			File.close();
+		}
+		else {
+			std::cerr << "Error opening time file.\n";
 		}
 	}
 

@@ -7,7 +7,7 @@ class Pet {
 private:
 	std::string name;
 	int age;
-	int hunger;
+	int nutrition;
 	int happiness;
 	int energy;
 	std::string data;

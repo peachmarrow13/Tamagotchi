@@ -7,19 +7,20 @@
 #include <random>
 
 Pet::Pet(std::string PetName)
-	: name(PetName), age(0), hunger(50), happiness(50), energy(50) {
+	: name(PetName), age(0), nutrition(50), happiness(50), energy(50) {
 }
 
 void Pet::Feed() {
-	hunger -= 15;
+	nutrition += 15;
 	happiness += 10;
+	energy -= 5;
 	ClampStats();
 }
 
 void Pet::Play() {
 	happiness += 20;
 	energy -= 10;
-	hunger += 5;
+	nutrition -= 5;
 	ClampStats();
 }
 
@@ -30,7 +31,7 @@ void Pet::Sleep() {
 }
 
 void Pet::Update() {
-	hunger -= 5;
+	nutrition -= 2;
 	happiness -= 2;
 	energy -= 3;
 	age += 1;
@@ -38,7 +39,7 @@ void Pet::Update() {
 }
 
 void Pet::ClampStats() {
-	hunger = Utils::Clamp(hunger, 0, 100);
+	nutrition = Utils::Clamp(nutrition, 0, 100);
 	happiness = Utils::Clamp(happiness, 0, 100);
 	energy = Utils::Clamp(energy, 0, 100);
 }
@@ -47,30 +48,30 @@ void Pet::PrintStats() const {
 	std::cout 
 		<< "Name: " << name << "\n"
 		<< "Age: " << age << "\n"
-		<< "Hunger: " << hunger << "\n"
+		<< "Nutrition: " << nutrition << "\n"
 		<< "Happiness: " << happiness << "\n"
 		<< "Energy: " << energy << "\n";
 }
 
 bool Pet::IsAlive() const {
-	return hunger > 0 && happiness > 0 && energy > 0;
+	return nutrition > 0 && happiness > 0 && energy > 0;
 }
 
 std::string Pet::GetData() {
 		std::string data =
 		name + "\n" +
 		std::to_string(age) + "\n" +
-		std::to_string(hunger) + "\n" +
+		std::to_string(nutrition) + "\n" +
 		std::to_string(happiness) + "\n" +
 		std::to_string(energy) + "\n";
 		return data;
 }
 
-std::string Pet::ReadStats(int stat) { // 1 = name, 2 = age, 3 = hunger, 4 = happiness, 5 = energy
+std::string Pet::ReadStats(int stat) { // 1 = name, 2 = age, 3 = nutrition, 4 = happiness, 5 = energy
 	switch (stat) {
 		case 1: return name;
 		case 2: return std::to_string(age);
-		case 3: return std::to_string(hunger);
+		case 3: return std::to_string(nutrition);
 		case 4: return std::to_string(happiness);
 		case 5: return std::to_string(energy);
 		default: std::cerr << "Invalid stat number." << std::endl; break;
@@ -83,16 +84,16 @@ void Pet::LoadFromStream(std::istream& in) {
 	std::string line;
 	std::getline(in, name);
 	std::getline(in, line); age = std::stoi(line);
-	std::getline(in, line); hunger = std::stoi(line);
+	std::getline(in, line); nutrition = std::stoi(line);
 	std::getline(in, line); happiness = std::stoi(line);
 	std::getline(in, line); energy = std::stoi(line);
 }
 
-void Pet::SetStat(int pick, std::string stat) { // 1 = name, 2 = age, 3 = hunger, 4 = happiness, 5 = energy
+void Pet::SetStat(int pick, std::string stat) { // 1 = name, 2 = age, 3 = nutrition, 4 = happiness, 5 = energy
 	switch (pick) {
 	case 1: name = stat; break;
 	case 2: age = std::stoi(stat); break;
-	case 3: hunger = std::stoi(stat); break;
+	case 3: nutrition = std::stoi(stat); break;
 	case 4: happiness = std::stoi(stat); break;
 	case 5: energy = std::stoi(stat); break;
 	}
@@ -100,7 +101,7 @@ void Pet::SetStat(int pick, std::string stat) { // 1 = name, 2 = age, 3 = hunger
 
 void Pet::Reset() {
 	age = 0;
-	hunger = 50;
+	nutrition = 50;
 	happiness = 50;
 	energy = 50;
 }
