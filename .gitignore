@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Tamagotchi/SaveFile.txt
+/compileData.scor
+/compileData.scor.gbl
