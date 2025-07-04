@@ -13,4 +13,5 @@ public:
 	static void SaveToFile(const std::string& filename, std::string pet);
 	static void Load(Pet& myPet); \
 	static bool IsSave(const std::string& filename);
+	static void TimePassed(Pet& myPet);
 };

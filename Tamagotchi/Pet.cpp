@@ -78,10 +78,29 @@ std::string Pet::ReadStats(int stat) { // 1 = name, 2 = age, 3 = hunger, 4 = hap
 }
 
 void Pet::LoadFromStream(std::istream& in) {
+	in.clear(); // Clear EOF flag
+	in.seekg(0); // Move cursor to beginning
 	std::string line;
 	std::getline(in, name);
 	std::getline(in, line); age = std::stoi(line);
 	std::getline(in, line); hunger = std::stoi(line);
 	std::getline(in, line); happiness = std::stoi(line);
 	std::getline(in, line); energy = std::stoi(line);
+}
+
+void Pet::SetStat(int pick, std::string stat) { // 1 = name, 2 = age, 3 = hunger, 4 = happiness, 5 = energy
+	switch (pick) {
+	case 1: name = stat; break;
+	case 2: age = std::stoi(stat); break;
+	case 3: hunger = std::stoi(stat); break;
+	case 4: happiness = std::stoi(stat); break;
+	case 5: energy = std::stoi(stat); break;
+	}
+}
+
+void Pet::Reset() {
+	age = 0;
+	hunger = 50;
+	happiness = 50;
+	energy = 50;
 }

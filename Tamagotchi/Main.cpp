@@ -1,11 +1,12 @@
 #include "Includes.h"
 
-void Start(Pet& Pet);
-void NewGame();
+void Start(Pet& myPet);
+void NewGame(); 
+void Load(Pet& myPet);
+Pet myPet("DefaultName");
 
 int main() {
-	Pet myPet("Jo Biden's illegitimate son");
-
+	
 	Start(myPet);
 
 	while (myPet.IsAlive()) {
@@ -43,7 +44,7 @@ int main() {
 	return 0;
 }
 
-void Start(Pet& CPet) {
+void Start(Pet& myPet) {
 
 	Utils::clearScreen();
 	Utils::printSeparator();
@@ -57,13 +58,13 @@ void Start(Pet& CPet) {
 		std::cin >> choice;
 		std::cin.ignore(); // Clear the newline character from the input buffer
 		if (choice == 'y' || choice == 'Y') {
-			Utils::Load(CPet);
-			std::cout << "Loaded pet: " << CPet.ReadStats(1) << std::endl;
+			Load(myPet);
+			std::cout << "Loaded pet: " << myPet.ReadStats(1) << std::endl;
 			Utils::delay(800);
 			return;
 		}
 		else {
-			std::cout << "Are you sure? (This will permanently delete your save): ";
+			std::cout << "Are you sure? (This will permanently delete your save!)(y/n): ";
 			char confirm;
 			std::cin >> confirm;
 			std::cin.ignore(); // Clear the newline character from the input buffer
@@ -93,5 +94,11 @@ void NewGame() {
 	std::cout << "Enter your pet's name: ";
 	std::getline(std::cin, PetName);
 
-	Pet myPet(PetName);
+	myPet.Reset();
+	myPet.SetStat(1, PetName);
+}
+
+void Load(Pet& myPet) {
+	Utils::Load(myPet);
+	Utils::TimePassed(myPet);
 }

@@ -10,7 +10,7 @@ private:
 	int hunger;
 	int happiness;
 	int energy;
-
+	std::string data;
 	void ClampStats();
 public:
 	Pet(std::string PetName);
@@ -21,9 +21,11 @@ public:
 	void Update();
 	std::string ReadStats(int stat);
 	void LoadFromStream(std::istream& in);
-
+	void SetStat(int pick, std::string stat);
 	void PrintStats() const;
 	bool IsAlive() const;
-	std::string data;
+	void Reset();
 	std::string GetData();
+
+	
 };

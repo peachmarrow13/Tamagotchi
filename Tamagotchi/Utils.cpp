@@ -1,6 +1,9 @@
 #include "Utils.h"
 #include "Includes.h"
 #include "Pet.h"
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 int Utils::getRandomNumber(int min, int max) {
 	static std::random_device rd;  // Seed
@@ -46,8 +49,9 @@ int Utils::getRandomNumber(int min, int max) {
 			std::cerr << "Error opening save file.\n";
 			return;
 		}
-		//std::cout << "Loading stats from save file...\n";
+		std::cout << "Loading stats from save file...\n";
 		myPet.LoadFromStream(file);
+		file.close();
 	}
 
 	bool Utils::IsSave(const std::string& filename) {
@@ -58,4 +62,26 @@ int Utils::getRandomNumber(int min, int max) {
 			return 0;
 		else
 			return 1;
+	}
+
+	void Utils::TimePassed(Pet& myPet) {
+		using std::chrono::system_clock;
+
+		std::ifstream file("Time");
+		if (!file.is_open()) {
+			std::cerr << "Error opening time file.\n";
+			return;
+		}
+
+		std::string LastTime;
+		file >> LastTime;
+		file.close();
+		system_clock::time_point Now = system_clock::now();
+		system_clock::time_point LastTimePoint = system_clock::from_time_t(std::stoll(LastTime));
+		auto duration = std::chrono::duration_cast<std::chrono::hours>(Now - LastTimePoint).count();
+
+		while (duration > 0) {
+			myPet.Update();
+			duration--;
+		}
 	}
