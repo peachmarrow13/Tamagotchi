@@ -22,7 +22,7 @@ public:
 	std::string ReadStats(int stat);
 	void LoadFromStream(std::istream& in);
 	void SetStat(int pick, std::string stat);
-	void PrintStats() const;
+	std::string PrintStats() const;
 	bool IsAlive() const;
 	void Reset();
 	std::string GetData();

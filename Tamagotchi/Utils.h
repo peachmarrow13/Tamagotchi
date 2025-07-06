@@ -5,7 +5,7 @@ class Pet;
 
 class Utils {
 public:
-	static int getRandomNumber(int min, int max);
+	int getRandomNumber(int min, int max);
 	static int Clamp(int value, int min, int max);
 	static void delay(unsigned int milliseconds);
 	static void clearScreen();
@@ -14,4 +14,6 @@ public:
 	static void Load(Pet& myPet); \
 	static bool IsSave(const std::string& filename);
 	static void TimePassed(Pet& myPet);
+	static void SaveTime(std::string file);
+	static void Exit(int Code, const std::string& Message);
 };

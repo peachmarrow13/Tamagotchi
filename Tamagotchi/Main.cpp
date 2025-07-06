@@ -5,13 +5,16 @@ void NewGame();
 void Load(Pet& myPet);
 Pet myPet("DefaultName");
 
+std::string SN = "SaveFile"; // Save Name
+std::string TSN = "Time"; // Time Save Name
+
 int main() {
-	
+	Utils::Exit(120, "Welcome to Tamagotchi Game!\n");
 	Start(myPet);
 
 	while (myPet.IsAlive()) {
 		Utils::clearScreen();
-		myPet.PrintStats();
+		std::cout << myPet.PrintStats();
 
 		std::cout << "Choose an action:\n1. Feed\n2. Play\n3. Sleep\n4. Exit\n";
 		int choice;
@@ -30,17 +33,31 @@ int main() {
 		case 4:
 			std::cout << "Saving game..." << std::endl;
 			Utils::delay(800);
-			Utils::SaveToFile("savefile.txt", myPet.GetData());
+			Utils::SaveToFile(SN, myPet.GetData());
+			Utils::SaveTime(TSN);
 			return 0;
 		default:
 			std::cout << "Invalid choice, try again." << std::endl;
 		}
 
 		myPet.Update();
+		Utils::SaveToFile(SN, myPet.GetData());
+		Utils::SaveTime(TSN);
 		Utils::delay(300);
 	}
 
 	std::cout << "Your pet has passed away. Game over." << std::endl;
+	Utils::SaveToFile(SN, myPet.GetData());
+	std::cout << "Would you like to start a new game? (y/n): ";
+	char Choice;
+	std::cin >> Choice;
+	std::cin.ignore(); // Clear the newline character from the input buffer
+	if (Choice == 'y' || Choice == 'Y') {
+		NewGame();
+	}
+	else {
+		std::cout << "Thank you for playing!" << std::endl;
+	}
 	return 0;
 }
 
@@ -51,7 +68,7 @@ void Start(Pet& myPet) {
 
 	std::cout << "Welcome to Tamagotchi Game!" << std::endl;
 
-	if (Utils::IsSave("SaveFile.txt")) {
+	if (Utils::IsSave(SN)) {
 	here:
 		std::cout << "A save file was found. Do you want to load it? (y/n): ";
 		char choice;
@@ -96,6 +113,8 @@ void NewGame() {
 
 	myPet.Reset();
 	myPet.SetStat(1, PetName);
+
+	Utils::SaveToFile(SN, myPet.GetData());
 }
 
 void Load(Pet& myPet) {

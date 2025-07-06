@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <random>
 
 Pet::Pet(std::string PetName)
 	: name(PetName), age(0), nutrition(50), happiness(50), energy(50) {
@@ -34,7 +33,7 @@ void Pet::Update() {
 	nutrition -= 2;
 	happiness -= 2;
 	energy -= 2;
-	//!age += 1;
+	//?age += 1;
 	ClampStats();
 }
 
@@ -44,13 +43,14 @@ void Pet::ClampStats() {
 	energy = Utils::Clamp(energy, 0, 100);
 }
 
-void Pet::PrintStats() const {
-	std::cout 
-		<< "Name: " << name << "\n"
-		<< "Age: " << age << "\n"
-		<< "Nutrition: " << nutrition << "\n"
-		<< "Happiness: " << happiness << "\n"
-		<< "Energy: " << energy << "\n";
+std::string Pet::PrintStats() const {
+
+	return
+		name + "\n" +
+		std::to_string(age) + "\n" +
+		std::to_string(nutrition) + "\n" +
+		std::to_string(happiness) + "\n" +
+		std::to_string(energy) + "\n";
 }
 
 bool Pet::IsAlive() const {
@@ -74,11 +74,17 @@ std::string Pet::ReadStats(int stat) { // 1 = name, 2 = age, 3 = nutrition, 4 = 
 		case 3: return std::to_string(nutrition);
 		case 4: return std::to_string(happiness);
 		case 5: return std::to_string(energy);
-		default: std::cerr << "Invalid stat number." << std::endl; break;
+		default: std::cerr << "Invalid stat number." << std::endl; return "";
 	}
 }
 
 void Pet::LoadFromStream(std::istream& in) {
+	if (!in) 
+		std::cerr << "Error reading from stream." << std::endl; return;
+		
+	{
+
+	}
 	in.clear(); // Clear EOF flag
 	in.seekg(0); // Move cursor to beginning
 	std::string line;
