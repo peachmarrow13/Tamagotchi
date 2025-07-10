@@ -33,8 +33,8 @@ void Pet::Sleep() {
 void Pet::Update() {
 	nutrition -= 2;
 	happiness -= 2;
-	energy -= 3;
-	age += 1;
+	energy -= 2;
+	//!age += 1;
 	ClampStats();
 }
 
